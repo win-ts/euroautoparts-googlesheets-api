@@ -22,7 +22,7 @@ export const getProducts = async () => {
     }
 }
 
-export const newLead = async (payload: FormData) => {
+export const newLead = async (payload) => {
     const auth = new google.auth.GoogleAuth({
         keyFile: 'credentials.json',
         scopes: ['https://www.googleapis.com/auth/spreadsheets'],
@@ -38,7 +38,7 @@ export const newLead = async (payload: FormData) => {
             valueInputOption: 'RAW',
             requestBody: {
                 values: [
-                    [payload.get("name"), payload.get("contact"), payload.get("phone")]
+                    [payload.name, payload.contact, payload.phone]
                 ]
             },
             includeValuesInResponse: true,
