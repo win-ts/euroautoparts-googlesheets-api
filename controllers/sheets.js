@@ -38,6 +38,57 @@ exports.getProductsPageCount = async (req, res) => {
     }
 }
 
+const productTypes = {
+    "interior": "อะไหล่ภายใน",
+    "exterior": "อะไหล่ภายนอก",
+    "suspension": "อะไหล่ช่วงล่าง",
+}
+
+exports.getProductsByType = async (req, res) => {
+    try {
+        const category = req.params.category;
+        if (category === undefined || category === "" || productTypes[category] === undefined) {
+            return res.status(400).json({ success: false, error: 'Bad Request', message: 'Invalid category' });
+        }
+
+        const products = await Service.getProductsByType(productTypes[category]);
+        res.json({ success: true, products });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err });
+    }
+}
+
+exports.getProductsByTypePageCount = async (req, res) => {
+    try {
+        const category = req.params.category;
+        const limit = parseInt(req.query.limit);
+        if (category === undefined || category === "" || productTypes[category] === undefined || isNaN(limit) || limit < 1) {
+            return res.status(400).json({ success: false, error: 'Bad Request', message: 'Invalid category or limit' });
+        }
+
+        const pageCount = await Service.getProductsByTypePageCount(productTypes[category], limit);
+        res.json({ success: true, pageCount });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err });
+    }
+}
+
+exports.getProductsByTypeWithPage = async (req, res) => {
+    try {
+        const category = req.params.category;
+        const limit = parseInt(req.query.limit);
+        const pageNo = parseInt(req.query.pageNo);
+        if (category === undefined || category === "" || productTypes[category] === undefined || isNaN(pageNo) || isNaN(limit) || limit < 1 || pageNo < 1) {
+            return res.status(400).json({ success: false, error: 'Bad Request', message: 'Invalid category or page number' });
+        }
+
+        const products = await Service.getProductsByTypeWithPage(productTypes[category], limit, pageNo);
+        res.json({ success: true, products });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err });
+    }
+}
+
 exports.newLead = async (req, res) => {
     try {
         const payload = req.body;
