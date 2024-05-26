@@ -12,6 +12,9 @@ router.get("/products/type/:category/page", sheetsController.getProductsByTypeWi
 router.get("/products/model/:car", sheetsController.getProductsByCar);
 router.get("/products/model/:car/page-count", sheetsController.getProductsByCarPageCount);
 router.get("/products/model/:car/page", sheetsController.getProductsByCarWithPage);
+router.get("/products/type&model/:category/:car", sheetsController.getProductsByTypeAndCar);
+router.get("/products/type&model/:category/:car/page-count", sheetsController.getProductsByTypeAndCarPageCount);
+router.get("/products/type&model/:category/:car/page", sheetsController.getProductsByTypeAndCarWithPage);
 router.post("/lead", sheetsController.newLead);
 router.get("/best-selling", sheetsController.getBestSellingProducts);
 

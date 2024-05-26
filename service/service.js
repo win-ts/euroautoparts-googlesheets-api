@@ -114,6 +114,36 @@ export const getProductsByCarWithPage = async (car, limit, pageNo) => {
     }
 }
 
+export const getProductsByTypeAndCar = async (category, car) => {
+    try {
+        const result = await getProductsByType(category);
+        return result.filter((product) => product[2].includes(car));
+    } catch (err) {
+        console.error('Error retrieving spreadsheet data:', err);
+        return err;
+    }
+}
+
+export const getProductsByTypeAndCarPageCount = async (category, car, limit) => {
+    try {
+        const result = await getProductsByTypeAndCar(category, car);
+        return Math.ceil(result.length / limit);
+    } catch (err) {
+        console.error('Error retrieving spreadsheet data:', err);
+        return err;
+    }
+}
+
+export const getProductsByTypeAndCarWithPage = async (category, car, limit, pageNo) => {
+    try {
+        const result = await getProductsByTypeAndCar(category, car);
+        return result.slice((pageNo - 1) * limit, pageNo * limit);
+    } catch (err) {
+        console.error('Error retrieving spreadsheet data:', err);
+        return err;
+    }
+}
+
 export const newLead = async (payload) => {
     const auth = new google.auth.GoogleAuth({
         keyFile: 'credentials.json',

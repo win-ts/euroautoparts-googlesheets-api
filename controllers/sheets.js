@@ -134,6 +134,54 @@ exports.getProductsByCarWithPage = async (req, res) => {
     }
 }
 
+exports.getProductsByTypeAndCar = async (req, res) => {
+    try {
+        const category = req.params.category;
+        const car = req.params.car;
+        if (category === undefined || category === "" || productTypes[category] === undefined || car === undefined || car === "") {
+            return res.status(400).json({ success: false, error: 'Bad Request', message: 'Invalid category or car' });
+        }
+
+        const products = await Service.getProductsByTypeAndCar(productTypes[category], car);
+        res.json({ success: true, products });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err });
+    }
+}
+
+exports.getProductsByTypeAndCarPageCount = async (req, res) => {
+    try {
+        const category = req.params.category;
+        const car = req.params.car;
+        const limit = parseInt(req.query.limit);
+        if (category === undefined || category === "" || productTypes[category] === undefined || car === undefined || car === "" || isNaN(limit) || limit < 1) {
+            return res.status(400).json({ success: false, error: 'Bad Request', message: 'Invalid category, car or limit' });
+        }
+
+        const pageCount = await Service.getProductsByTypeAndCarPageCount(productTypes[category], car, limit);
+        res.json({ success: true, pageCount });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err });
+    }
+}
+
+exports.getProductsByTypeAndCarWithPage = async (req, res) => {
+    try {
+        const category = req.params.category;
+        const car = req.params.car;
+        const limit = parseInt(req.query.limit);
+        const pageNo = parseInt(req.query.pageNo);
+        if (category === undefined || category === "" || productTypes[category] === undefined || car === undefined || car === "" || isNaN(pageNo) || isNaN(limit) || limit < 1 || pageNo < 1) {
+            return res.status(400).json({ success: false, error: 'Bad Request', message: 'Invalid category, car or page number' });
+        }
+
+        const products = await Service.getProductsByTypeAndCarWithPage(productTypes[category], car, limit, pageNo);
+        res.json({ success: true, products });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err });
+    }
+}
+
 exports.newLead = async (req, res) => {
     try {
         const payload = req.body;
