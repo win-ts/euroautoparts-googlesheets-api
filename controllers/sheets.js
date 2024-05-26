@@ -89,6 +89,51 @@ exports.getProductsByTypeWithPage = async (req, res) => {
     }
 }
 
+exports.getProductsByCar = async (req, res) => {
+    try {
+        const car = req.params.car;
+        if (car === undefined || car === "") {
+            return res.status(400).json({ success: false, error: 'Bad Request', message: 'Invalid car' });
+        }
+
+        const products = await Service.getProductsByCar(car);
+        res.json({ success: true, products });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err });
+    }
+}
+
+exports.getProductsByCarPageCount = async (req, res) => {
+    try {
+        const car = req.params.car;
+        const limit = parseInt(req.query.limit);
+        if (car === undefined || car === "" || isNaN(limit) || limit < 1) {
+            return res.status(400).json({ success: false, error: 'Bad Request', message: 'Invalid car or limit' });
+        }
+
+        const pageCount = await Service.getProductsByCarPageCount(car, limit);
+        res.json({ success: true, pageCount });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err });
+    }
+}
+
+exports.getProductsByCarWithPage = async (req, res) => {
+    try {
+        const car = req.params.car;
+        const limit = parseInt(req.query.limit);
+        const pageNo = parseInt(req.query.pageNo);
+        if (car === undefined || car === "" || isNaN(pageNo) || isNaN(limit) || limit < 1 || pageNo < 1) {
+            return res.status(400).json({ success: false, error: 'Bad Request', message: 'Invalid car or page number' });
+        }
+
+        const products = await Service.getProductsByCarWithPage(car, limit, pageNo);
+        res.json({ success: true, products });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err });
+    }
+}
+
 exports.newLead = async (req, res) => {
     try {
         const payload = req.body;
