@@ -89,6 +89,51 @@ exports.getProductsByTypeWithPage = async (req, res) => {
     }
 }
 
+exports.getProductsByBrand = async (req, res) => {
+    try {
+        const brand = req.params.brand;
+        if (brand === undefined || brand === "") {
+            return res.status(400).json({ success: false, error: 'Bad Request', message: 'Invalid brand' });
+        }
+
+        const products = await Service.getProductsByBrand(brand);
+        res.json({ success: true, products });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err });
+    }
+}
+
+exports.getProductsByBrandPageCount = async (req, res) => {
+    try {
+        const brand = req.params.brand;
+        const limit = parseInt(req.query.limit);
+        if (brand === undefined || brand === "" || isNaN(limit) || limit < 1) {
+            return res.status(400).json({ success: false, error: 'Bad Request', message: 'Invalid brand or limit' });
+        }
+
+        const pageCount = await Service.getProductsByBrandPageCount(brand, limit);
+        res.json({ success: true, pageCount });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err });
+    }
+}
+
+exports.getProductsByBrandWithPage = async (req, res) => {
+    try {
+        const brand = req.params.brand;
+        const limit = parseInt(req.query.limit);
+        const pageNo = parseInt(req.query.pageNo);
+        if (brand === undefined || brand === "" || isNaN(pageNo) || isNaN(limit) || limit < 1 || pageNo < 1) {
+            return res.status(400).json({ success: false, error: 'Bad Request', message: 'Invalid brand or page number' });
+        }
+
+        const products = await Service.getProductsByBrandWithPage(brand, limit, pageNo);
+        res.json({ success: true, products });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err });
+    }
+}
+
 exports.getProductsByCar = async (req, res) => {
     try {
         const car = req.params.car;
@@ -128,6 +173,54 @@ exports.getProductsByCarWithPage = async (req, res) => {
         }
 
         const products = await Service.getProductsByCarWithPage(car, limit, pageNo);
+        res.json({ success: true, products });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err });
+    }
+}
+
+exports.getProductsByTypeAndBrand = async (req, res) => {
+    try {
+        const category = req.params.category;
+        const brand = req.params.brand;
+        if (category === undefined || category === "" || productTypes[category] === undefined || brand === undefined || brand === "") {
+            return res.status(400).json({ success: false, error: 'Bad Request', message: 'Invalid category or brand' });
+        }
+
+        const products = await Service.getProductsByTypeAndBrand(productTypes[category], brand);
+        res.json({ success: true, products });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err });
+    }
+}
+
+exports.getProductsByTypeAndBrandPageCount = async (req, res) => {
+    try {
+        const category = req.params.category;
+        const brand = req.params.brand;
+        const limit = parseInt(req.query.limit);
+        if (category === undefined || category === "" || productTypes[category] === undefined || brand === undefined || brand === "" || isNaN(limit) || limit < 1) {
+            return res.status(400).json({ success: false, error: 'Bad Request', message: 'Invalid category, brand or limit' });
+        }
+
+        const pageCount = await Service.getProductsByTypeAndBrandPageCount(productTypes[category], brand, limit);
+        res.json({ success: true, pageCount });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err });
+    }
+}
+
+exports.getProductsByTypeAndBrandWithPage = async (req, res) => {
+    try {
+        const category = req.params.category;
+        const brand = req.params.brand;
+        const limit = parseInt(req.query.limit);
+        const pageNo = parseInt(req.query.pageNo);
+        if (category === undefined || category === "" || productTypes[category] === undefined || brand === undefined || brand === "" || isNaN(pageNo) || isNaN(limit) || limit < 1 || pageNo < 1) {
+            return res.status(400).json({ success: false, error: 'Bad Request', message: 'Invalid category, brand or page number' });
+        }
+
+        const products = await Service.getProductsByTypeAndBrandWithPage(productTypes[category], brand, limit, pageNo);
         res.json({ success: true, products });
     } catch (err) {
         res.status(500).json({ success: false, error: err });
