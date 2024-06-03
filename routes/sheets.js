@@ -22,6 +22,5 @@ router.get("/products/type&model/:category/:car", sheetsController.getProductsBy
 router.get("/products/type&model/:category/:car/page-count", sheetsController.getProductsByTypeAndCarPageCount);
 router.get("/products/type&model/:category/:car/page", sheetsController.getProductsByTypeAndCarWithPage);
 router.post("/lead", sheetsController.newLead);
-router.get("/best-selling", sheetsController.getBestSellingProducts);
 
 module.exports = router;

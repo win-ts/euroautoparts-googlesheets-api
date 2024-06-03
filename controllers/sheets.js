@@ -288,12 +288,3 @@ exports.newLead = async (req, res) => {
         res.status(500).json({ success: false, error: err });
     }
 }
-
-exports.getBestSellingProducts = async (_req, res) => {
-    try {
-        const products = await Service.getBestSellingProducts();
-        res.json({ success: true, products });
-    } catch (err) {
-        res.status(500).json({ success: false, error: err });
-    }
-}

@@ -233,25 +233,3 @@ export const newLead = async (payload) => {
         return err;
     }
 }
-
-export const getBestSellingProducts = async () => {
-    const auth = new google.auth.GoogleAuth({
-        keyFile: 'credentials.json',
-        scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-    });
-    const googleSheets = google.sheets({ version: "v4", auth: auth });
-    const spreadsheetId = process.env.SPREADSHEET_ID ?? "";
-
-    try {
-        const response = await googleSheets.spreadsheets.values.get({
-            auth,
-            spreadsheetId,
-            range: 'BestSellingProducts!A2:D',
-        });
-        const result = response.data;
-        return result.values;
-    } catch (err) {
-        console.error('Error retrieving spreadsheet data:', err);
-        return err;
-    }
-}
