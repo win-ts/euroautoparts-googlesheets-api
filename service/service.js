@@ -88,7 +88,7 @@ export const getProductsByTypeWithPage = async (category, limit, pageNo) => {
 export const getProductsByBrand = async (brand) => {
     try {
         const result = await getProducts();
-        return result.filter((product) => product[2] === brand);
+        return result.filter((product) => product[2].includes(brand));
     } catch (err) {
         console.error('Error retrieving spreadsheet data:', err);
         return err;
@@ -148,7 +148,7 @@ export const getProductsByCarWithPage = async (car, limit, pageNo) => {
 export const getProductsByTypeAndBrand = async (category, brand) => {
     try {
         const result = await getProductsByType(category);
-        return result.filter((product) => product[2] === brand);
+        return result.filter((product) => product[2].includes(brand));
     } catch (err) {
         console.error('Error retrieving spreadsheet data:', err);
         return err;
