@@ -278,7 +278,7 @@ exports.getProductsByTypeAndCarWithPage = async (req, res) => {
 exports.newLead = async (req, res) => {
     try {
         const payload = req.body;
-        if (payload === undefined || (payload.name === "" && payload.contact === "" && payload.phone === "")) {
+        if (payload === undefined || (payload.name === "" || payload.contact === "" || payload.phone === "" || payload.province === "")) {
             return res.status(400).json({ success: false, error: 'Bad Request', message: 'Invalid payload' });
         }
 

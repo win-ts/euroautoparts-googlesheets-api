@@ -1,4 +1,5 @@
 import { google } from 'googleapis';
+import * as utils from '../utils/utils.js';
 
 export const getProducts = async () => {
     const auth = new google.auth.GoogleAuth({
@@ -216,11 +217,11 @@ export const newLead = async (payload) => {
         const response = await googleSheets.spreadsheets.values.append({
             auth,
             spreadsheetId,
-            range: 'Leads!A:C',
+            range: 'Leads!A:E',
             valueInputOption: 'RAW',
             requestBody: {
                 values: [
-                    [payload.name, payload.contact, payload.phone]
+                    [payload.name, payload.contact, payload.phone, payload.province, utils.getThailandTime()]
                 ]
             },
             includeValuesInResponse: true,
