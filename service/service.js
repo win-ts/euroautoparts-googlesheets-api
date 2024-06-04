@@ -3,10 +3,10 @@ import * as utils from '../utils/utils.js';
 
 export const getProducts = async () => {
     const auth = new google.auth.GoogleAuth({
-        keyFile: 'credentials.json',
         scopes: ['https://www.googleapis.com/auth/spreadsheets'],
     });
-    const googleSheets = google.sheets({ version: "v4", auth: auth });
+    const authClient = await auth.getClient();
+    const googleSheets = google.sheets({ version: "v4", auth: authClient });
     const spreadsheetId = process.env.SPREADSHEET_ID ?? "";
 
     try {
@@ -25,7 +25,6 @@ export const getProducts = async () => {
 
 export const getProductsByPage = async (limit, pageNo) => {
     const auth = new google.auth.GoogleAuth({
-        keyFile: 'credentials.json',
         scopes: ['https://www.googleapis.com/auth/spreadsheets'],
     });
     const googleSheets = google.sheets({ version: "v4", auth: auth });
@@ -207,7 +206,6 @@ export const getProductsByTypeAndCarWithPage = async (category, car, limit, page
 
 export const newLead = async (payload) => {
     const auth = new google.auth.GoogleAuth({
-        keyFile: 'credentials.json',
         scopes: ['https://www.googleapis.com/auth/spreadsheets'],
     });
     const googleSheets = google.sheets({ version: "v4", auth: auth });
