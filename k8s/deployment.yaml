@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: euroautoparts-googlesheets-api
+  labels:
+    app: euroautoparts-googlesheets-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: euroautoparts-googlesheets-api
+  template:
+    metadata:
+      labels:
+        app: euroautoparts-googlesheets-api
+    spec:
+      containers:
+        - name: euroautoparts-googlesheets-api
+          image: 192.168.1.108:5000/euroautoparts-googlesheets-api:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4000
+              protocol: TCP
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+          envFrom:
+            - secretRef:
+                name: landing-page-secret
