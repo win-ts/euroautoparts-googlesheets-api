@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: euroautoparts-googlesheets-api
+  namespace: prod
   labels:
     app: euroautoparts-googlesheets-api
 spec:
