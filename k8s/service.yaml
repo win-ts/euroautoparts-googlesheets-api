@@ -8,8 +8,9 @@ metadata:
 spec:
   selector:
     app: euroautoparts-googlesheets-api
-  type: ClusterIP
+  type: NodePort
   ports:
     - protocol: TCP
       port: 4000
       targetPort: 4000
+      nodePort: 31000

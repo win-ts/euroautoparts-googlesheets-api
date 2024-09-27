@@ -3,6 +3,7 @@ import * as utils from '../utils/utils.js';
 
 export const getProducts = async () => {
     const auth = new google.auth.GoogleAuth({
+        keyFilename: process.env.GOOGLE_APPLICATION_CREDENTIALS,
         scopes: ['https://www.googleapis.com/auth/spreadsheets'],
     });
     const authClient = await auth.getClient();
